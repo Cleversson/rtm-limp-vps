@@ -1,6 +1,7 @@
 import { createServiceClient } from "@/lib/supabase/service";
 import { createClient } from "@/lib/supabase/server";
 import { UserRound, Building2, ShieldCheck, Calendar } from "lucide-react";
+import BloquearUsuarioButton from "@/components/bloquear-usuario-button";
 
 export default async function UsuariosPage() {
   const supabase = await createClient();
@@ -8,7 +9,7 @@ export default async function UsuariosPage() {
 
   const { data: usuarios } = await supabase
     .from("usuarios")
-    .select("id, role, empresa_id, created_at, empresas(nome, email)")
+    .select("id, role, ativo, empresa_id, created_at, empresas(nome, email)")
     .order("created_at", { ascending: false });
 
   const { data: { users: authUsers } } = await service.auth.admin.listUsers();
@@ -47,6 +48,11 @@ export default async function UsuariosPage() {
                   Ultimo acesso: {ultimoAcesso}
                 </span>
               </div>
+              {u.role !== "admin" && (
+                <div className="shrink-0">
+                  <BloquearUsuarioButton usuarioId={u.id} ativo={u.ativo ?? true} email={auth?.email ?? ""} />
+                </div>
+              )}
             </div>
           );
         })}
