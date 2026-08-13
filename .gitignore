@@ -43,3 +43,4 @@ next-env.d.ts
 
 # referência visual (local, não faz parte do produto)
 /design-reference-mobile
+*.bak_*
