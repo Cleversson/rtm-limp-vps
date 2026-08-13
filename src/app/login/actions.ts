@@ -16,7 +16,8 @@ export async function signInWithPassword(formData: FormData) {
     redirect(`/login?error=${encodeURIComponent(error.message)}`);
   }
 
-  redirect("/app");
+  const ADMIN_EMAIL = "cleverssondantas@gmail.com";
+  redirect(email === ADMIN_EMAIL ? "/admin" : "/app");
 }
 
 export async function signUpWithPassword(formData: FormData) {

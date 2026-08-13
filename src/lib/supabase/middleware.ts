@@ -85,8 +85,10 @@ export async function updateSession(request: NextRequest) {
     if (errorParam) {
       return supabaseResponse;
     }
+    const ADMIN_EMAIL = "cleverssondantas@gmail.com";
+    const isAdmin = user.email === ADMIN_EMAIL;
     const url = request.nextUrl.clone();
-    url.pathname = "/app";
+    url.pathname = isAdmin ? "/admin" : "/app";
     return NextResponse.redirect(url);
   }
 
