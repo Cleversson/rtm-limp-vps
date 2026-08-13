@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Start-Process -FilePath \"cmd.exe\" -ArgumentList \"/c npm run dev > $env:TEMP\\\\rtm-dev.log 2>&1\" -WindowStyle Hidden; Start-Sleep -Seconds 1; \"started\")",
+      "Bash(mkdir -p \"/c/Users/cleve/AppData/Local/Temp/claude/c--Users-cleve-rtm-limp/1b099c36-c54d-477f-8230-24b6739ef83d/scratchpad/fase7\")",
+      "Bash(npx --yes playwright screenshot --viewport-size=390,844 http://localhost:3000/login \"/c/Users/cleve/AppData/Local/Temp/claude/c--Users-cleve-rtm-limp/1b099c36-c54d-477f-8230-24b6739ef83d/scratchpad/fase7/login.png\")",
+      "Bash(npx --yes playwright screenshot --viewport-size=390,844 http://localhost:3000/orcamentos __TRACKED_VAR__/orcamentos-redirect.png)",
+      "Read(//c/Users/cleve/AppData/Local/Temp/claude/c--Users-cleve-rtm-limp/1b099c36-c54d-477f-8230-24b6739ef83d/scratchpad/fase7/**)",
+      "Bash(NODE_PATH=\"/c/Users/cleve/rtm-limp/node_modules\" npx --yes tsx render-test.mjs)",
+      "Bash(npx --yes tsx scripts-tmp-render-test.mjs)",
+      "Bash(npx --yes playwright screenshot --viewport-size=800,1100 --full-page file:////c/Users/cleve/AppData/Local/Temp/claude/c--Users-cleve-rtm-limp/1b099c36-c54d-477f-8230-24b6739ef83d/scratchpad/fase7/orcamento-teste.pdf /c/Users/cleve/AppData/Local/Temp/claude/c--Users-cleve-rtm-limp/1b099c36-c54d-477f-8230-24b6739ef83d/scratchpad/fase7/orcamento-teste.png)",
+      "Bash(npx --yes playwright screenshot --viewport-size=800,1100 --full-page file:///C:/Users/cleve/AppData/Local/Temp/claude/c--Users-cleve-rtm-limp/1b099c36-c54d-477f-8230-24b6739ef83d/scratchpad/fase7/orcamento-teste.pdf C:/Users/cleve/AppData/Local/Temp/claude/c--Users-cleve-rtm-limp/1b099c36-c54d-477f-8230-24b6739ef83d/scratchpad/fase7/orcamento-teste.png)",
+      "Bash(npx --yes playwright screenshot --viewport-size=820,1150 file:///C:/Users/cleve/AppData/Local/Temp/claude/c--Users-cleve-rtm-limp/1b099c36-c54d-477f-8230-24b6739ef83d/scratchpad/fase7/viewer.html C:/Users/cleve/AppData/Local/Temp/claude/c--Users-cleve-rtm-limp/1b099c36-c54d-477f-8230-24b6739ef83d/scratchpad/fase7/orcamento-embed.png)",
+      "Bash(npm init *)",
+      "Bash(node rasterize.mjs)",
+      "Bash(tasklist //FI \"IMAGENYAME eq node.exe\")",
+      "Bash(taskkill //PID 29728 //F)",
+      "Bash(taskkill //PID 22264 //F)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(node -e ' *)",
+      "Bash(node --experimental-strip-types -e ' *)"
+    ]
+  }
+}
