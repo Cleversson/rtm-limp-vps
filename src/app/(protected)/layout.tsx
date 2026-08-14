@@ -3,6 +3,8 @@ import { getUsuarioAtual } from "@/lib/supabase/auth";
 import { createServiceClient } from "@/lib/supabase/service";
 import { ProtectedShell } from "./protected-shell";
 import { AcessoBloqueadoGuard } from "@/components/acesso-bloqueado-guard";
+import { TrialBanner } from "@/components/trial-banner";
+import { TrialIcon } from "@/components/trial-icon";
 
 function getInitials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -35,5 +37,5 @@ export default async function ProtectedLayout({
     usuario?.empresas as { nome: string } | null | undefined
   )?.nome;
   const initials = getInitials(empresaNome ?? user.email ?? "RTM");
-  return <ProtectedShell initials={initials}><AcessoBloqueadoGuard />{children}</ProtectedShell>;
+  return <ProtectedShell initials={initials} trialBanner={<TrialBanner empresaId={usuarioDb?.empresa_id ?? null} />} trialIcon={<TrialIcon empresaId={usuarioDb?.empresa_id ?? null} />}><AcessoBloqueadoGuard />{children}</ProtectedShell>;
 }

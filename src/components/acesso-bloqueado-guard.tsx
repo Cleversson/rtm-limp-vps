@@ -22,7 +22,7 @@ export function AcessoBloqueadoGuard() {
       } catch {}
     }
     verificar();
-    const interval = setInterval(verificar, 15000);
+    const interval = setInterval(verificar, 60000);
     return () => clearInterval(interval);
   }, []);
 

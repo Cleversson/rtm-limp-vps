@@ -65,9 +65,13 @@ function ItemSidebar({ item }: { item: NavItem }) {
 export function ProtectedShell({
   initials,
   children,
+  trialBanner,
+  trialIcon,
 }: {
   initials: string;
   children: React.ReactNode;
+  trialBanner?: React.ReactNode;
+  trialIcon?: React.ReactNode;
 }) {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
@@ -89,6 +93,7 @@ export function ProtectedShell({
           ))}
         </nav>
 
+        {trialIcon && <div className="px-3 pb-2">{trialIcon}</div>}
         <div className="border-t border-slate-200 p-3 dark:border-slate-800">
           <button
             type="button"
@@ -122,8 +127,10 @@ export function ProtectedShell({
         >
           <Bell className="h-5 w-5" />
         </button>
+        <div className="ml-auto">{trialIcon}</div>
       </header>
 
+      <div className="fixed top-16 left-0 right-0 z-30 lg:left-64">{trialBanner}</div>
       <main className="px-5 pb-28 pt-20 lg:ml-64 lg:pb-8 lg:pt-8">
         {children}
       </main>
