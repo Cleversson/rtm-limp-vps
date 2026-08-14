@@ -7,11 +7,15 @@ const API = () => `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
 export async function enviarTelegram(mensagem: string): Promise<void> {
   if (!BOT_TOKEN || !CHAT_ID) return;
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
     await fetch(API(), {
+      signal: controller.signal,
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ chat_id: CHAT_ID, text: mensagem, parse_mode: "HTML" }),
     });
+    clearTimeout(timeoutId);
   } catch (err) {
     console.error("[Telegram] Erro:", err);
   }

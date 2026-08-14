@@ -17,9 +17,19 @@ export default async function ProtectedLayout({
 }) {
   const { user, usuario } = await getUsuarioAtual();
   const service = createServiceClient();
-  const { data: usuarioDb } = await service.from("usuarios").select("ativo").eq("id", user.id).maybeSingle();
+  const { data: usuarioDb } = await service.from("usuarios").select("ativo, empresa_id").eq("id", user.id).maybeSingle();
   if (usuarioDb && usuarioDb.ativo === false) {
     redirect("/login?error=" + encodeURIComponent("Seu acesso foi suspenso. Entre em contato com o administrador."));
+  }
+  if (usuarioDb?.empresa_id) {
+    const { data: plano } = await service.from("planos_acesso").select("status, trial_fim").eq("empresa_id", usuarioDb.empresa_id).maybeSingle();
+    if (plano) {
+      const trialExpirado = plano.status === "trial" && new Date(plano.trial_fim) < new Date();
+      if (trialExpirado || plano.status === "bloqueado") {
+        if (trialExpirado) await service.from("planos_acesso").update({ status: "bloqueado", updated_at: new Date().toISOString() }).eq("empresa_id", usuarioDb.empresa_id);
+        redirect("/upgrade");
+      }
+    }
   }
   const empresaNome = (
     usuario?.empresas as { nome: string } | null | undefined

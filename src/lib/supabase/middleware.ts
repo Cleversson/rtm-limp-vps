@@ -80,7 +80,7 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (user && isLoginRoute) {
+  if (user && isLoginRoute && request.method === "GET") {
     const errorParam = request.nextUrl.searchParams.get("error");
     if (errorParam) {
       return supabaseResponse;
