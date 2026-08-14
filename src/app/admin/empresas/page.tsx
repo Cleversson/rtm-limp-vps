@@ -21,7 +21,7 @@ export default async function EmpresasPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-900">Empresas</h1>
+      <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Empresas</h1>
       <p className="mt-1 text-sm text-slate-500">{reais.length} empresas</p>
 
       <div className="mt-4 flex flex-col gap-3">

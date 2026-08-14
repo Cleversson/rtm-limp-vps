@@ -13,24 +13,11 @@ export default function NovoAvisoPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!titulo.trim() || !mensagem.trim()) {
-      setErro("Preencha título e mensagem.");
-      return;
-    }
-    setLoading(true);
-    setErro("");
+    if (!titulo.trim() || !mensagem.trim()) { setErro("Preencha todos os campos."); return; }
+    setLoading(true); setErro("");
     const supabase = createClient();
-    const { error } = await supabase.from("avisos").insert({
-      titulo: titulo.trim(),
-      mensagem: mensagem.trim(),
-      ativo: true,
-      empresa_id: null,
-    });
-    setLoading(false);
-    if (error) {
-      setErro("Erro ao criar aviso: " + error.message);
-      return;
-    }
+    const { error } = await supabase.from("avisos").insert({ titulo: titulo.trim(), mensagem: mensagem.trim(), ativo: true });
+    if (error) { setErro("Erro ao criar aviso: " + error.message); setLoading(false); return; }
     fetch("/api/notificar", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo: "novo_aviso", dados: { titulo: titulo.trim() } }) }).catch(() => {});
     router.push("/admin/avisos");
     router.refresh();
@@ -38,56 +25,44 @@ export default function NovoAvisoPage() {
 
   return (
     <div>
-      <div style={{ marginBottom: "1.5rem" }}>
-        <Link href="/admin/avisos" style={{ fontSize: "13px", color: "var(--text-secondary)", textDecoration: "none" }}>← Avisos</Link>
-        <h1 style={{ fontSize: "18px", fontWeight: 500, color: "var(--text-primary)", marginTop: "0.5rem" }}>Novo aviso</h1>
-        <p style={{ fontSize: "13px", color: "var(--text-secondary)", marginTop: "2px" }}>Será enviado para todas as empresas</p>
+      <div className="mb-6">
+        <Link href="/admin/avisos" className="text-sm text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">&larr; Avisos</Link>
+        <h1 className="mt-2 text-2xl font-bold text-slate-900 dark:text-slate-100">Novo aviso</h1>
+        <p className="text-sm text-emerald-600">Sera enviado para todas as empresas</p>
       </div>
 
-      <div style={{ background: "var(--surface-2)", border: "0.5px solid var(--border)", borderRadius: "12px", padding: "1.5rem", maxWidth: "600px" }}>
-        <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: "1rem" }}>
-            <label style={{ fontSize: "13px", fontWeight: 500, color: "var(--text-primary)", display: "block", marginBottom: "6px" }}>Título</label>
-            <input
-              type="text"
-              value={titulo}
-              onChange={e => setTitulo(e.target.value)}
-              placeholder="Ex: Nova funcionalidade disponível"
-              style={{ width: "100%", padding: "8px 12px", border: "0.5px solid var(--border)", borderRadius: "var(--radius)", fontSize: "14px", background: "var(--surface-1)", color: "var(--text-primary)" }}
-            />
-          </div>
-
-          <div style={{ marginBottom: "1.5rem" }}>
-            <label style={{ fontSize: "13px", fontWeight: 500, color: "var(--text-primary)", display: "block", marginBottom: "6px" }}>Mensagem</label>
-            <textarea
-              value={mensagem}
-              onChange={e => setMensagem(e.target.value)}
-              placeholder="Descreva o aviso para os usuários..."
-              rows={4}
-              style={{ width: "100%", padding: "8px 12px", border: "0.5px solid var(--border)", borderRadius: "var(--radius)", fontSize: "14px", background: "var(--surface-1)", color: "var(--text-primary)", resize: "vertical" }}
-            />
-          </div>
-
-          {erro && (
-            <div style={{ padding: "8px 12px", background: "var(--bg-danger)", color: "var(--text-danger)", borderRadius: "var(--radius)", fontSize: "13px", marginBottom: "1rem" }}>
-              {erro}
-            </div>
-          )}
-
-          <div style={{ display: "flex", gap: "8px" }}>
-            <button
-              type="submit"
-              disabled={loading}
-              style={{ padding: "8px 20px", background: "#10B981", color: "#fff", border: "none", borderRadius: "var(--radius)", fontSize: "14px", fontWeight: 500, cursor: "pointer", opacity: loading ? 0.6 : 1 }}
-            >
-              {loading ? "Criando..." : "Criar aviso"}
-            </button>
-            <Link href="/admin/avisos" style={{ padding: "8px 20px", border: "0.5px solid var(--border-strong)", borderRadius: "var(--radius)", fontSize: "14px", color: "var(--text-secondary)", textDecoration: "none" }}>
-              Cancelar
-            </Link>
-          </div>
-        </form>
-      </div>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-lg">
+        {erro && <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600 dark:bg-red-500/10 dark:text-red-400">{erro}</p>}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Titulo</label>
+          <input
+            value={titulo}
+            onChange={e => setTitulo(e.target.value)}
+            placeholder="Ex: Nova funcionalidade disponivel"
+            className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500"
+          />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Mensagem</label>
+          <textarea
+            value={mensagem}
+            onChange={e => setMensagem(e.target.value)}
+            placeholder="Descreva o aviso para os usuarios"
+            rows={5}
+            className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 resize-none"
+          />
+        </div>
+        <div className="flex gap-3">
+          <button type="submit" disabled={loading}
+            className="rounded-xl bg-emerald-500 px-6 py-3 text-sm font-semibold text-white hover:bg-emerald-600 disabled:opacity-60"
+          >
+            {loading ? "Criando..." : "Criar aviso"}
+          </button>
+          <Link href="/admin/avisos" className="rounded-xl border border-slate-200 px-6 py-3 text-sm font-semibold text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800">
+            Cancelar
+          </Link>
+        </div>
+      </form>
     </div>
   );
 }
